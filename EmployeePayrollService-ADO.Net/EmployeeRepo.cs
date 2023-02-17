@@ -11,6 +11,50 @@ namespace EmployeePayrollService_ADO.Net
     {
         public static string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PayrollService;Integrated Security=True";
         SqlConnection connection = new SqlConnection(connectionString);
+        public void GetAllEmployee()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = @"Select * from employee_payroll;";
+                    SqlCommand cmd = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            //employeeModel.EmployeeID = dr.GetInt32(0);
+
+                            employeeModel.EmployeeName = dr.GetString(0);
+                            employeeModel.BasicPay = dr.GetDecimal(1);
+                            employeeModel.StartDate = dr.GetDateTime(2);
+                            employeeModel.Gender = Convert.ToChar(dr.GetString(3));
+                            //employeeModel.PhoneNumber = dr.GetString(4);
+                            employeeModel.Address = dr.GetString(5);
+                            //employeeModel.Department = dr.GetString(6);
+                            //employeeModel.Deductions = dr.GetDouble(7);
+                            //employeeModel.TaxablePay = dr.GetDouble(8);
+                            //employeeModel.Tax = dr.GetDouble(9);
+                            //employeeModel.NetPay = dr.GetDouble(10);
+                            System.Console.WriteLine(employeeModel.EmployeeName + " " + employeeModel.BasicPay + " " + employeeModel.StartDate + " " + employeeModel.Gender + " " + employeeModel.PhoneNumber + " " + employeeModel.Address + " " + employeeModel.Department + " " + employeeModel.Deductions + " " + employeeModel.TaxablePay + " " + employeeModel.Tax + " " + employeeModel.NetPay);
+                            System.Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+        }
+
         //UC_02-Insert record 
         public bool AddEmployee(EmployeeModel model)
         {

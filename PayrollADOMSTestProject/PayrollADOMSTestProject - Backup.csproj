@@ -15,8 +15,4 @@
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\EmployeePayrollService-ADO.Net\EmployeePayrollService-ADO.Net.csproj" />
-  </ItemGroup>
-
 </Project>

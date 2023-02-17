@@ -27,5 +27,13 @@ namespace PayrollADOMSTestProject
             Assert.IsTrue(result);
         }
 
+
+        [TestMethod]
+        public void GetAllEmployeeShouldReturnListOfRecords()
+        {
+            EmployeeRepo repo = new EmployeeRepo();
+            var result = repo.GetAllEmployee();
+            Assert.IsTrue(result);
+        }
     }
 }
