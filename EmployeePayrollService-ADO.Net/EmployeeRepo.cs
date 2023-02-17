@@ -167,7 +167,7 @@ namespace EmployeePayrollService_ADO.Net
             return result;
         }
 
-        //Usecase 5: Finds the employees in a given range from start date to current
+        //Usecase 6: Finds the employees in a given range from start date to current
         public string DataBasedOnDateRange()
         {
             string nameList = "";
@@ -208,6 +208,47 @@ namespace EmployeePayrollService_ADO.Net
             return nameList;
 
         }
+    }
+
+    //Usecase 7: Aggregate Function
+    public string AggregateFunctionBasedOnGender(string query)
+    {
+        string nameList = "";
+        try
+        {
+            using (this.connection)
+            {
+                ////query execution
+                SqlCommand command = new SqlCommand(query, this.connection);
+                //open sql connection
+                connection.Open();
+
+                SqlDataReader sqlDataReader = command.ExecuteReader();
+                if (sqlDataReader.HasRows)
+                {
+                    while (sqlDataReader.Read())
+                    {
+                        Console.WriteLine("TotalSalary: {0} \t MinimumSalary: {1} \t MaximumSalary: {2}AverageSalary: {3} \t Count: {4}", sqlDataReader[0], sqlDataReader[1], sqlDataReader[2], sqlDataReader[3], sqlDataReader[4]);
+                        nameList += sqlDataReader[0] + " " + sqlDataReader[1] + " " + sqlDataReader[2] + " " + sqlDataReader[3] + " " + sqlDataReader[4];
+                    }
+                }
+                //close reader
+                sqlDataReader.Close();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+
+           connection.Close();
+        }
+        //returns the count of employee in the list between the given range
+        return nameList;
+
     }
 }
 
