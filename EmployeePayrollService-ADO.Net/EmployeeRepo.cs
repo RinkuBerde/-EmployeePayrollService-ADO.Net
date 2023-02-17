@@ -100,6 +100,36 @@ namespace EmployeePayrollService_ADO.Net
             return false;
         }
 
+        //UseCase 4: Update Salary to 3000000
+        public void UpdateSalaryQuery()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+
+                {
+                    //sqlConnection.Open();
+                    string query = "update employee_payroll set BasicPay=3000000 where EmployeeName= 'Ashaya Sivakumar'";
+                    this.connection.Open();
+                    //Pass query to TSql
+                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    int result = sqlCommand.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        Console.WriteLine("Updated!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not Updated!");
+                    }
+                    //Close Connection
+                    this.connection.Close();
+                    GetAllEmployee();
+                }
+            }
+        }
+
     }
 }
 
