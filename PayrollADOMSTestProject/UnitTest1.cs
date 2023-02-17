@@ -35,5 +35,19 @@ namespace PayrollADOMSTestProject
             var result = repo.GetAllEmployee();
             Assert.IsTrue(result);
         }
+
+        //Usecase 5: Update basic pay in Sql Server using Stored Procedure
+        [TestMethod]
+        [TestCategory("Using Stored Procedure")]
+        public void GivenUpdateQuery_UsingStoredProcedure_ReturnOne()
+        {
+            EmployeeModel employeeDataManager = new EmployeeModel();
+            int expected = 1;
+            employeeDataManager.EmployeeID = 1;
+            employeeDataManager.EmployeeName = "Bill";
+            employeeDataManager.BasicPay = 30000000;
+            int actual = employeeRepository.UpdateSalary(employeeDataModel);
+            Assert.AreEqual(actual, expected);
+        }
     }
 }
