@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EmployeePayrollService_ADO.Net
 {
-
+    //UC-08-Transaction Query
     class TransactionClass
     {
         public static string connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=Payroll;Trusted_Connection=True;";
@@ -46,6 +46,35 @@ namespace EmployeePayrollService_ADO.Net
                     //Rollback to the point before exception
                     sqlTransaction.Rollback();
                     result = 1;
+                }
+            }
+            return result;
+        }
+
+        //UC-8.1-Refector-Cascading Delete
+        public int DeleteUsingCasadeDelete()
+        {
+            int result = 0;
+            using (SqlConnection)
+            {
+                SqlConnection.Open();
+                //Begin SQL transaction
+                SqlTransaction sqlTransaction = SqlConnection.BeginTransaction();
+                SqlCommand sqlCommand = SqlConnection.CreateCommand();
+                sqlCommand.Transaction = sqlTransaction;
+                try
+                {
+                    sqlCommand.CommandText = "delete from employee where EmployeeID='4'";
+                    result = sqlCommand.ExecuteNonQuery();
+                    sqlTransaction.Commit();
+                    Console.WriteLine("Updated!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    //Rollback to the point before exception
+                    sqlTransaction.Rollback();
+                    Console.WriteLine("Not Updated!");
                 }
             }
             return result;
