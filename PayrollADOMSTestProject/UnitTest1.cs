@@ -95,4 +95,69 @@ namespace PayrollADOMSTestProject
     }
 
 
+    //-----------Usecase 9 and 10: Implement ER Diagram -----------
+
+    //Usecase2: Insert record 
+    [TestMethod]
+    [TestCategory("Using ER Table Implementation")]
+    public void GivenSelectQuery_ReturnCount()
+    {
+        int expected = 5;
+        int actual = eRRepository.RetrieveAllData();
+        Assert.AreEqual(actual, expected);
+    }
+    // //UseCase 4: Update Salary to 3000000
+    [TestMethod]
+    [TestCategory("Using ER Table Implementation")]
+    public void GivenUpdateQuery_ERTable_ReturnOne()
+    {
+        int expected = 1;
+        int actual = eRRepository.UpdateSalaryQuery();
+        Assert.AreEqual(actual, expected);
+    }
+    //Usecase 5: Update basic pay in Sql Server using Stored Procedure
+    [TestMethod]
+    [TestCategory("Using ER Table Implementation")]
+    public void GivenUpdateQuery_ERTable_UsingStoredProcedure_ReturnOne()
+    {
+        EmployeeDataManager employeeDataManager = new EmployeeDataManager();
+        int expected = 1;
+        employeeDataManager.EmployeeName = "Nandeeshwar";
+        employeeDataManager.BasicPay = 30000000;
+        int actual = eRRepository.UpdateSalary(employeeDataManager);
+        Assert.AreEqual(actual, expected);
+    }
+    //Usecase 6: Finds the employees in a given range from start date to current
+    [TestMethod]
+    [TestCategory("Using ER Table Implementation")]
+    public void GivenStartDate_ERTable_UsingStoredProcedure_ReturnStringodName()
+    {
+        EmployeeDataManager employeeDataManager = new EmployeeDataManager();
+        string expected = "Kriti Deshmuk Nandeeshwar ";
+        string actual = eRRepository.DataBasedOnDateRange();
+        Assert.AreEqual(actual, expected);
+    }
+    [TestMethod]
+    [TestCategory("Using SQL Query for Female")]
+    public void GivenGenderFemale_ERTable_GroupBygender_ReturnAggregateFunction()
+    {
+        EmployeeDataManager employeeDataManager = new EmployeeDataManager();
+        string expected = "7500000 3000000 4500000 3750000 2";
+        string query = "select sum(PayrollCalculate.BasicPay),min(PayrollCalculate.BasicPay),max(PayrollCalculate.BasicPay),Round(AVG(PayrollCalculate.BasicPay),0),COUNT(*)  from Employee inner join PayrollCalculate on Employee.EmployeeId = PayrollCalculate.EmployeeIdentity where Employee.Gender = 'F' group by Employee.Gender";
+        string actual = eRRepository.AggregateFunctionBasedOnGender(query);
+        Assert.AreEqual(actual, expected);
+    }
+
+    [TestMethod]
+    [TestCategory("Using SQL Query for Male")]
+    public void GivenGenderMale_ERTable_GroupBygender_ReturnAggregateFunction()
+    {
+        EmployeeDataManager employeeDataManager = new EmployeeDataManager();
+        string expected = "39000000 9000000 30000000 19500000 2";
+        string query = "select sum(PayrollCalculate.BasicPay),min(PayrollCalculate.BasicPay),max(PayrollCalculate.BasicPay),Round(AVG(PayrollCalculate.BasicPay),0),COUNT(*)  from Employee inner join PayrollCalculate on Employee.EmployeeId = PayrollCalculate.EmployeeIdentity where Employee.Gender = 'M' group by Employee.Gender";
+        string actual = eRRepository.AggregateFunctionBasedOnGender(query);
+        Assert.AreEqual(actual, expected);
+    }
+
+
 }
